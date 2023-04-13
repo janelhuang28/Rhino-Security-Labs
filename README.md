@@ -25,7 +25,7 @@ nano whitelist.txt <- Ensure that the IP address has a CIDR of /32 at the end
 python3 cloudgoat.py config whitelist
 ```
 
-### Scenarios
+## Scenarios
 #### Cloudgoat - ```The create command requires the use of the --profile flag, or a default profile defined in the config.yml file (try "config profile")```
 Update the config file for cloudgoat to add your aws profile. An access key and secret access key must be created first.
 ```
