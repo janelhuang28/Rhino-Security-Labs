@@ -12,7 +12,7 @@ The goal of this mission is to mount a file system on EFS and retrieve the flag.
 ./cloudgoat.py create ecs_efs_attack
 cd ecs_efs_attack<random generated strings>
 ```
-Privilege Enumeration
+### Privilege Enumeration
 1. SSH into the instance ```ssh -i cloudgoat ubuntu@<IP address of ruse>```
 2. Create a new profile (inherits the permissions from the EC2) ```aws configure --profile ruse```
 3. Get the instance profile for the EC2 instance ```aws sts get-caller-identity```. The role name is found like so: arn:aws:sts::<account id>:assumed-role/<role name>/<instance id>
@@ -34,7 +34,7 @@ Privilege Enumeration
   ```
 5. Get the actual policy document - 
   ```
-  aws iam get-policy-version --policy-arn arn:aws:iam::672021671131:policy/cg-ec2-ruse-role-policy-ecs_efs_attack_cgid6sec93nj4n --version-id v1
+  aws iam get-policy-version --policy-arn arn:aws:iam::<account id>:policy/cg-ec2-ruse-role-policy-ecs_efs_attack_cgid6sec93nj4n --version-id v1
   {
       "PolicyVersion": {
           "Document": {
@@ -69,8 +69,45 @@ Privilege Enumeration
   ```
   We can see that the actions that are allowed e.g. EC2 (read), ECS (read and write) and iam (read)
 
-EC2 Enumeration
+### EC2 Enumeration
+1. List all ec2 instances - ```aws ec2 describe-instances```. If you have lots of instances, filter by region and running state: ``` aws ec2 describe-instances --region us-east-1 --filters "Name=instance-state-name, Values=running"```
+  Found 2 instances. With StartSession SSM tagged with both:
+    * cg-ruse-ec2-ecs_efs_attack_cgid6sec93nj4n (StartSesion true)
+    * cg-admin-ec2-ecs_efs_attack_cgid6sec93nj4n (StartSesion false)
 
+### ECS Enumeration
+1. List clusters - 
+  ```
+  aws ecs list-clusters
+  {
+      "clusterArns": [
+          "arn:aws:ecs:us-east-1:<account id>:cluster/<cluster id>"
+      ]
+  }
+  ```
+2. List the services with the cluster to know which task we can update in order to go into the admin EC2. ECS highest level is a cluster-> service->task.
+ ```
+  aws ecs list-services --cluster <cluster arn>
+  
+  ```
+  {
+    "serviceArns": [
+        "arn:aws:ecs:us-east-1:<account id>:service/<cluster name>/<service name>"
+    ]
+}
+3. Describe the services to find task definition name
+  ```
+  aws ecs describe-services --cluster <cluster name> --services <service name>
+  ...
+  "taskDefinition": "<task definition arn>",
+  ...
+  ```
+4. Describe the task definition and output to a file so we are able to change the behaviour
+  ```
+  aws ecs describe-task-definition --task-definition webapp:1 > taskdef.json
+  
+
+  
 # Trouble Shooting
 ## Installation
 
