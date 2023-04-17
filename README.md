@@ -7,6 +7,9 @@ Practicing the Rhino Security Labs
 
 # Scenarios
 ## EFS ECS Attack - Privilege escalation through ecs containers to mount an efs 
+https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md
+
+
 # Trouble Shooting
 ## Installation
 
