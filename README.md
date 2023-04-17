@@ -187,7 +187,7 @@ So we need to change the tags on admin ec2 to do that using the instance id role
 aws configure --profile ecs
 <Eneter Access Key, Secret Access Key, Region (same as ruse) and output as text>
 ```
-2. Update the tags ```aws ec2 create-tags --resource <admin instance id> --tags “Key=StartSession,Value=true”````
+2. Update the tags ``` aws ec2 create-tags --resource <admin instance id> --tags “Key=StartSession,Value=true”```
 3. SSM Start session ```aws ssm start-session --target <admin instance id> --profile ecs```
 
 ### Mount EFS
