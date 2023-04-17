@@ -6,9 +6,13 @@ Practicing the Rhino Security Labs
 2. Install Cloudgoat - a sandbox environment to perform cloud based vulnerbility testing https://github.com/RhinoSecurityLabs/cloudgoat#quick-start
 
 # Scenarios
-## EFS ECS Attack - Privilege escalation through ecs containers to mount an efs 
-https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md
+## Easy
+### Vulernable Lambda - Privilege escalation in lamdba to retrieve secret in secrets manager
+https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/vulnerable%20lambda/README.md 
 
+## Hard
+### EFS ECS Attack - Privilege escalation through ecs containers to mount an efs 
+https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md
 
 # Trouble Shooting
 ## Installation
