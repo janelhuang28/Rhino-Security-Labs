@@ -3,7 +3,7 @@ In this scenario, a lambda function will be exploited to escalate privileges and
 
 ## Installation
 ```./cloudgoat.py create vulnerable_lambda
-
+```
 ## Enumerate Biblo
 1. Assume the biblo user's role
 ```aws configure --profile biblo
