@@ -2,7 +2,8 @@
 In this scenario, a lambda function will be exploited to escalate privileges and search for secrets.
 
 ## Installation
-```./cloudgoat.py create vulnerable_lambda
+```
+./cloudgoat.py create vulnerable_lambda
 ```
 ## Enumerate Biblo
 1. Assume the biblo user's role
