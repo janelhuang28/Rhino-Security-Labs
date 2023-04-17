@@ -205,3 +205,5 @@ sudo apt-get -y install nfs-common -> install nfs-common
 sudo mount -t nfs4 -O no_netdev -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport <EFS IP>:/ /efs 
 cat admin/flag.txt -> to get the final flag.
 ```
+# References 
+* Challenge https://github.com/RhinoSecurityLabs/cloudgoat/blob/master/scenarios/vulnerable_lambda/README.md
