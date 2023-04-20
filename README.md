@@ -10,7 +10,6 @@ Practicing the Rhino Security Labs
 ### Vulernable Lambda - Privilege escalation in lamdba to retrieve secret in secrets manager
 https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/vulnerable%20lambda/README.md 
 
-## Hard
 ### EFS ECS Attack - Privilege escalation through ecs containers to mount an efs 
 https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md
 
