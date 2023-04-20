@@ -11,7 +11,7 @@ Add raynor into the AWS CLI profiles and login as the user
 aws configure --profile raynor
 <Add access key, secret access key, region and text as output>
 aws sts get-caller-identity 
-.. arn:aws:iam::672021671131:user/<username> ...
+.. arn:aws:iam::<account number>:user/<username> ...
 ```
 
 ### Identify permissions tied with Raynor
