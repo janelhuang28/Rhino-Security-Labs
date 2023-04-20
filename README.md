@@ -17,7 +17,7 @@ https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md
 # Trouble Shooting
 ## Installation
 
-#### Cloudgoat - ```No whitelist.txt file was found at /Users/huajanel/cloudgoat/whitelist.txt ... Unknown error: Unable to retrieve IP address.```
+#### Cloudgoat - ```No whitelist.txt file was found at /Users/<username>/cloudgoat/whitelist.txt ... Unknown error: Unable to retrieve IP address.```
 With the --auto feature, the whitelist is created automatically. However, if it is not able to find the IP address due to VPN, etc., restrictions, then perform the following commands
 ```
 ifconfig <- For MAC, retrieve IP Address
