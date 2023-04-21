@@ -134,5 +134,10 @@ aws iam list-attached-user-policies --user-name <chris user name>
 ATTACHEDPOLICIES        arn:aws:iam::aws:policy/AdministratorAccess     AdministratorAccess <- This policy is attached!
 ```
 
+
+## Troubleshooting
+### Destroy "chris-XX need to detach policies in order to be deleted"
+Go into the IAM console of the account and remove administrator access. Access key is already deleted so the cli commands will not work.
+
 ## References 
 https://github.com/RhinoSecurityLabs/cloudgoat/blob/master/scenarios/lambda_privesc/README.md
