@@ -16,6 +16,13 @@ https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/iam_privesc_by_rol
 ### Lamdba Privilege Escalation - Privilege escalation using IAM roles and Lambda
 https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/lambda_privesc
 
+## Medium 
+### IAM privilege escalation by attachment
+https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/iam_privesec_by_attachment
+
+### EC2 SSRF
+https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/ec2_ssrf
+
 ## Hard
 ### EFS ECS Attack - Privilege escalation through ecs containers to mount an efs 
 https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md

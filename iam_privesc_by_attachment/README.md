@@ -47,3 +47,5 @@ aws ec2 describe-instances --region us-east-1 --filters Name=instance-state-name
 
 aws ec2 terminate-instances --instance-ids i-03b0e378a59956c35 --region us-east-1
 ```
+## References
+https://github.com/RhinoSecurityLabs/cloudgoat/blob/master/scenarios/iam_privesc_by_attachment/README.md
