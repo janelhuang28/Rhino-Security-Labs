@@ -26,6 +26,9 @@ https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/ec2_ssrf
 ### ECS Takeover
 https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/ecs_takeover
 
+### RCE Web App
+https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/rce_web_app
+
 ## Hard
 ### EFS ECS Attack - Privilege escalation through ecs containers to mount an efs 
 https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md
