@@ -23,6 +23,9 @@ https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/iam_privesec_by_at
 ### EC2 SSRF
 https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/ec2_ssrf
 
+### ECS Takeover
+https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/ecs_takeover
+
 ## Hard
 ### EFS ECS Attack - Privilege escalation through ecs containers to mount an efs 
 https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md
