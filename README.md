@@ -29,9 +29,19 @@ https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/ecs_takeover
 ### RCE Web App
 https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/rce_web_app
 
+### CICD
+https://github.com/janelhuang28/Rhino-Security-Labs/tree/main/cicd
+
+
 ## Hard
 ### EFS ECS Attack - Privilege escalation through ecs containers to mount an efs 
 https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/efs_ecs/README.md
+
+### Code build secrets
+https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/code_buildsecrets
+
+### Detection Evasion
+https://github.com/janelhuang28/Rhino-Security-Labs/blob/main/detection_evasion
 
 # Trouble Shooting
 ## Installation
